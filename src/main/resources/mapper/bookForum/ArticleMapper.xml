@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bao.bookforum.mapper.ArticleMapper">
+
+    <sql id="articleVoInfoSql">
+        select art.article_type_id,
+               article_id,
+               u.user_name,
+               u.user_id,
+               art.article_title,
+               art.article_add_time,
+               art.article_like_number,
+               art.article_look_number,
+               art.article_collection_number,
+               artt.article_type_name
+        from article art left join article_type as artt on
+            art.article_type_id=artt.article_type_id
+                         left join user u on u.user_id=art.user_id
+    </sql>
+
+    <select id="articleList" resultType="com.bao.bookforum.vo.ArticleVo">
+        select art.article_type_id,
+               article_id,
+               u.user_name,
+               u.user_id,
+               art.article_title,
+               art.article_add_time,
+               art.article_like_number,
+               art.article_look_number,
+               art.article_collection_number,
+               artt.article_type_name
+        from article art left join article_type as artt on
+            art.article_type_id=artt.article_type_id
+                         left join user u on u.user_id=art.user_id
+
+        <where>
+            <if test="articleTitle != null and articleTitle !='' ">
+                and art.article_title like concat('%',#{articleTitle},'%')
+            </if>
+            <if test="userId != null and userId !='' ">
+                and art.user_id = #{userId}
+            </if>
+            <if test="articleTypeId != null and articleTypeId !='' ">
+                and art.article_type_id = #{articleTypeId}
+            </if>
+        </where>
+
+        order by art.article_add_time desc
+    </select>
+
+    <select id="getArticle" resultType="com.bao.bookforum.vo.ArticleVo">
+        select art.article_type_id,
+        article_id,
+        u.user_name,
+        u.user_id,
+        art.article_title,
+        art.article_add_time,
+        art.article_context,
+        art.article_like_number,
+        art.article_look_number,
+        art.article_collection_number,
+        artt.article_type_name
+        from article art left join article_type as artt on
+        art.article_type_id=artt.article_type_id
+        left join user u on u.user_id=art.user_id
+
+        <where>
+            <if test="getArticle != null and getArticle !='' ">
+                and art.article_id = #{articleId}
+            </if>
+        </where>
+    </select>
+</mapper>

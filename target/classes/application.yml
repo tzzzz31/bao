@@ -1,0 +1,52 @@
+server:
+  port: 80
+
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/bookForum?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+  #设置时区
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-dates-as-timestamps: false
+  web:
+    resources:
+      static-locations: classpath:static/,file:static/
+
+  freemarker:
+#    settings:
+#      classic_compatible: true
+#      datetime_format: yyy-MM-dd HH:mm:ss
+#      number_format: 0.##
+    suffix: .ftl
+    content-type: text/html
+    charset: utf-8
+    cache: true
+
+
+
+mybatis-plus:
+  type-aliases-package: com.bao.bookForum.*
+  configuration:
+    call-setters-on-nulls: false
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  global-config:
+    banner: true
+    db-config:
+      id-type: uuid
+      logic-not-delete-value: 1
+      logic-delete-value: 0
+
+logging:
+  level:
+    root: info

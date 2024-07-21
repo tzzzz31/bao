@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bao.bookforum.mapper.ArticleTypeMapper">
+    <select id="articleTypeList" resultType="ArticleTypeVo">
+        select aty.*,
+               (select count(1) from article a where a.article_type_id  = aty.article_type_id) as articleCount
+        from article_type aty
+        order by aty.article_type_sort
+    </select>
+</mapper>
